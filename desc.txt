@@ -1,0 +1,25 @@
+buttons onclick <-> keyboards onclick
+un-editable text areas
+default is marked and showed as zero (both imaginary and real)
+operations -> multiplication, addition, substraction, integer division
+server thread for multiple users at a time
+uppest text area for history of calculations (or for previous)
+after calculation if the another operator is clicked the operation/text will begin from last answer (eg: ans.+5)
+after calculation if any number is clicked the text starts as usual
+if "i" is typed without any coefficient it should be accepted as 1
+
+---------------------------------------------
+|history...                                 |
+----------------------------
+| 5+6i | | (+-*/) | | -2i | 
+----------------------------
+----------------------------
+|   5+6i   | (bigger shrift)
+----------------------------
+
+object transfer from client to server -> real
+online client or request onclick of "="
+
+class Complex (real and imaginary) {get set}
+class Calculate (Complex1 Complex2){add sub mult div}
+
