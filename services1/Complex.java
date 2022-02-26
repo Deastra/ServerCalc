@@ -35,36 +35,18 @@ public class Complex implements Serializable{
     
     @Override
     public String toString() {
-        
+        String strA=new String(Float.toString(this.a));
+        String strB=new String(Float.toString(this.b));
         if (this.a==0 & this.b==0){
             return "0";
-        }
-
-        String strA;
-        String strB;
-        String ext=new String();
-
-        if (this.b==0){
-            strB=new String();
-        }
-        else if(this.b<0){
-            ext=new String();
-            strB=Float.toString(this.b)+"i";
+        }else if(this.a==0){
+            return strB+"i";
+        }else if(this.b==0){
+            return strA;
+        }else if(this.b>0){
+            return strA+"+"+strB+"i";
         }else{
-            if (this.a==0){
-                ext=new String();
-            }
-            ext=new String("+");
-            strB=Float.toString(this.b)+"i";
+            return strA+strB+"i";
         }
-
-        if (this.a==0){
-            ext=new String();
-            strA=new String();
-        }else{
-            strA=Float.toString(this.a);
-        }
-        return strA+ext+strB;
     }
-
 }
