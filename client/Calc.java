@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
-//import java.util.regex.*;
+import static java.lang.Math.*;
 
 //Increase font size
 //Keyboard listener
@@ -221,8 +221,8 @@ public class Calc implements ActionListener {
     	this.total.setText(this.C1 + this.OP + this.C2);
     	
     	if (e.getSource() == beq) {
-    		String real_im_1[] = Calc.parseComplexNumber(textFields[0].getText());   
-    		String real_im_2[] = Calc.parseComplexNumber(textFields[2].getText());
+    		float real_im_1[] = Calc.parseComplexNumber(textFields[0].getText());   
+    		float real_im_2[] = Calc.parseComplexNumber(textFields[2].getText());
     		System.out.println(real_im_1[0]);
     		System.out.println(real_im_1[1]);
     		System.out.println(real_im_2[0]);
@@ -242,7 +242,7 @@ public class Calc implements ActionListener {
     	}
     }
     
-    private static String[] parseComplexNumber(String complexNumber) {
+    private static float[] parseComplexNumber(String complexNumber) {
     	String[] real_im = new String[2];
     	
     	if (!complexNumber.contains("i")) {
@@ -270,7 +270,13 @@ public class Calc implements ActionListener {
     		real_im[0] = Calc.evalString(imaginaryPartRemoved[0] + (imaginaryPartRemoved.length != 1 ? imaginaryPartRemoved[1] : ""));
     	}
     	
-    	return real_im;
+    	float[] real_im_fl = new float[2];
+    	real_im_fl[0] = Float.parseFloat(real_im[0]);
+    	real_im_fl[1] = Float.parseFloat(real_im[1].substring(0, real_im[1].length()-1));
+    	real_im_fl[0] = (float)(Math.round(real_im_fl[0] * 100.0)/100.0);
+    	real_im_fl[1] = (float)(Math.round(real_im_fl[1] * 100.0)/100.0);
+    	
+    	return real_im_fl;
     }
     
     private static String evalString(String expression) {
