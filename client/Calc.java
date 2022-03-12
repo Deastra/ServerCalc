@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
 import static java.lang.Math.*;
+import java.awt.Font;
+import java.awt.*;
+import java.awt.font.*;
 
-//Increase font size
-//Keyboard listener
 
 public class Calc implements ActionListener {
     JFrame f;
@@ -35,13 +36,20 @@ public class Calc implements ActionListener {
         textFields[0] = t1;
         textFields[1] = tOperator;
         textFields[2] = t2;
+        Font font1 = new Font("SansSerif", Font.BOLD, 16);
+        Font font2 = new Font("SansSerif", Font.BOLD, 20);
+        textFields[0].setFont(font1);
+        textFields[1].setFont(font1);
+        textFields[2].setFont(font1);
+        total.setFont(font2);
         for (int i = 0; i < 3; i++) {
-        	final int inner_i = i;
+        	final int inner_i =  i;
         	textFields[i].addFocusListener(new FocusListener() {
         		public void focusGained(FocusEvent e) { focusedTextField = inner_i; }        		
         		public void focusLost(FocusEvent e){};
         	});
         }
+        
         
         bplus=new JButton("+");
         bminus=new JButton("-");
@@ -75,10 +83,10 @@ public class Calc implements ActionListener {
         t2Label.setBounds(220,100,100,20);	
         tOPLabel.setBounds(150,100,40,20);
         total.setBounds(10,5,320,50);
-        t1.setBounds(20, 60, 110, 40);
-        tOperator.setBounds(135, 60, 50, 40);
+        t1.setBounds(10, 60, 125, 40);
+        tOperator.setBounds(145, 60, 50, 40);
         tOperator.setHorizontalAlignment(JTextField.CENTER);
-        t2.setBounds(190, 60, 110, 40);
+        t2.setBounds(205, 60, 125, 40);
         numberButtons[7].setBounds(10,180,80,40);
         numberButtons[8].setBounds(100,180,80,40);
         numberButtons[9].setBounds(190,180,80,40);
