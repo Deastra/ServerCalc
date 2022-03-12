@@ -2,6 +2,10 @@ import java.io.Serializable;
 public class Complex implements Serializable{
     private float a,b;
 
+    public Complex(){
+        this.a=0;
+        this.b=0;
+    }
     public Complex(float a, float b){
         this.a=a;
         this.b=b;

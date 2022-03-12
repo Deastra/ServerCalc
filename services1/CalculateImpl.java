@@ -32,6 +32,14 @@ public class CalculateImpl implements Calculate{
         Complex res=new Complex(a,b);
         return res;
     }
-    
+    public Complex Calculation(Complex c1, Complex c2,String op){
+        switch (op){
+            case "+": return add(c1,c2);
+            case "-": return substitute(c1, c2);
+            case "*": return multiply(c1,c2);
+            case "/": return intDivision(c1, c2);
+            default: return new Complex();
+        }
+    }
 
 }
