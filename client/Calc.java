@@ -267,7 +267,7 @@ public class Calc implements ActionListener {
     		} else regex = real_im[1];
     		
     		String[] imaginaryPartRemoved = complexNumber.split(regex);
-    		real_im[0] = Calc.evalString((imaginaryPartRemoved.length != 1 ? imaginaryPartRemoved[0] : "") + (imaginaryPartRemoved.length != 1 ? imaginaryPartRemoved[1] : ""));
+    		real_im[0] = Calc.evalString((imaginaryPartRemoved.length > 0 ? imaginaryPartRemoved[0] : "") + (imaginaryPartRemoved.length > 1 ? imaginaryPartRemoved[1] : ""));
     	}
     	
     	float[] real_im_fl = new float[2];
