@@ -23,3 +23,8 @@ online client or request onclick of "="
 class Complex (real and imaginary) {get set}
 class Calculate (Complex1 Complex2){add sub mult div}
 
+#####################################################
+Class names
+Calculation mothod name
+Class diagrams correction
+Sequence diagram - RMIRegistry lifetime

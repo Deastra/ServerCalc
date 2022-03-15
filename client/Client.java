@@ -9,12 +9,9 @@ public class Client {
       try {
         Registry registry = LocateRegistry.getRegistry(machine, port);
         Calculate obj = (Calculate)registry.lookup("Calculate5");
-        new Calculator(obj);
-        
+        new GraphicalCalculator(obj);
       } catch (Exception e) {
         System.out.println("Client exception: ");
       }
     }
-
-
 }

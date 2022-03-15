@@ -9,7 +9,7 @@ import java.awt.font.*;
 //Increase font size
 //Keyboard listener
 
-public class Calculator implements ActionListener {
+public class GraphicalCalculator implements ActionListener {
     JFrame f;
     JTextField tOperator,t1,t2,total;
     JTextField textFields[] = new JTextField[3];
@@ -22,9 +22,10 @@ public class Calculator implements ActionListener {
     int operator = 0;
     String C1, C2, OP;
     Calculate obj;
-    public Calculator(Calculate obj) {
+
+    public GraphicalCalculator(Calculate obj) {
         this.obj=obj;
-        f = new JFrame("Calculator");
+        f = new JFrame("GraphicalCalculator");
         total = new JTextField();
         total.setEditable(false);
         total.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -45,14 +46,14 @@ public class Calculator implements ActionListener {
         textFields[1].setFont(font1);
         textFields[2].setFont(font1);
         total.setFont(font2);
+
         for (int i = 0; i < 3; i++) {
         	final int inner_i =  i;
         	textFields[i].addFocusListener(new FocusListener() {
         		public void focusGained(FocusEvent e) { focusedTextField = inner_i; }        		
         		public void focusLost(FocusEvent e){};
         	});
-        }
-        
+        }  
         
         bplus=new JButton("+");
         bminus=new JButton("-");
@@ -233,8 +234,8 @@ public class Calculator implements ActionListener {
     	this.total.setText(total_exp);
     	
     	if (e.getSource() == beq) {
-    		double real_im_1[] = Calculator.parseComplexNumber(textFields[0].getText());   
-    		double real_im_2[] = Calculator.parseComplexNumber(textFields[2].getText());
+    		double real_im_1[] = GraphicalCalculator.parseComplexNumber(textFields[0].getText());   
+    		double real_im_2[] = GraphicalCalculator.parseComplexNumber(textFields[2].getText());
             try{
                 total_exp+="="+Equals(this.obj, real_im_1[0], real_im_1[1], real_im_2[0],real_im_2[1],OP);
                 this.total.setText(total_exp);
@@ -267,7 +268,7 @@ public class Calculator implements ActionListener {
     private static double[] parseComplexNumber(String complexNumber) {
     	String[] real_im = new String[2];	
     	if (!complexNumber.contains("i")) {
-    		if (complexNumber.length() > 0) real_im[0] = Calculator.evalString(complexNumber);
+    		if (complexNumber.length() > 0) real_im[0] = GraphicalCalculator.evalString(complexNumber);
     		else real_im[0] = "0.0";
     		real_im[1] = "0.0i";
     	}
@@ -288,7 +289,7 @@ public class Calculator implements ActionListener {
     		} else regex = real_im[1];
     		
     		String[] imaginaryPartRemoved = complexNumber.split(regex);
-    		real_im[0] = Calculator.evalString((imaginaryPartRemoved.length > 0 ? imaginaryPartRemoved[0] : "") + (imaginaryPartRemoved.length > 1 ? imaginaryPartRemoved[1] : ""));
+    		real_im[0] = GraphicalCalculator.evalString((imaginaryPartRemoved.length > 0 ? imaginaryPartRemoved[0] : "") + (imaginaryPartRemoved.length > 1 ? imaginaryPartRemoved[1] : ""));
     	}
     	
     	double[] real_im_fl = new double[2];

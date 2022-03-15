@@ -11,12 +11,16 @@ public class Server {
       Calculate skeleton = (Calculate)UnicastRemoteObject.exportObject(new CalculateImpl(), 0);
       Registry registry = LocateRegistry.getRegistry(port);
       
-      if(!Arrays.asList(registry.list()).contains("Calculate5"))
+      if(!Arrays.asList(registry.list()).contains("Calculate5")){
+        System.out.println("binding");
         registry.bind("Calculate5", skeleton); 
-      else
+      }
+      else{
+        System.out.println("rebinding");
         registry.rebind("Calculate5", skeleton);
-        System.out.println("Service Calculator5 executed");
-        System.out.println("Client <-> Service");
+      }
+      System.out.println("Service Calculator5 executed");
+      System.out.println("Client <-> Service");
     } catch (Exception e) {
         System.out.println(e);
     }
