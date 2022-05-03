@@ -53,6 +53,11 @@ public class GraphicalCalculator implements ActionListener {
         		public void focusGained(FocusEvent e) { focusedTextField = inner_i; }        		
         		public void focusLost(FocusEvent e){};
         	});
+        	textFields[i].addKeyListener(new KeyAdapter() {
+        		public void keyTyped(KeyEvent e) {
+        			e.consume();
+        		}
+        	});
         }  
         
         bplus=new JButton("+");
