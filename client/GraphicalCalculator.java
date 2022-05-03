@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.text.AttributeSet.ColorAttribute;
+
 import java.awt.event.*;
 import java.awt.Color;
 import static java.lang.Math.*;
@@ -9,6 +11,7 @@ import java.awt.font.*;
 //Keyboard listener
 
 public class GraphicalCalculator implements ActionListener {
+
     JFrame f;
 	JPanel p1,p2;
     JTextField tOperator,t1,t2,total;
@@ -77,19 +80,21 @@ public class GraphicalCalculator implements ActionListener {
         bright.addActionListener(this);
         clear = new JButton("C");
         clear.addActionListener(this);
-        backspace=new JButton("<x]");
+        backspace=new JButton("Del");
         backspace.addActionListener(this);
-        backspace.setBackground(Color.RED);
         for (int i=0;i<=9;i++){
             numberButtons[i]=new JButton(String.valueOf(i));
             numberButtons[i].addActionListener(this);
+			numberButtons[i].setBorder(null);
+			numberButtons[i].setBackground(Color.decode("#efefef"));
+			numberButtons[i].setFont(font1);
             p2.add(numberButtons[i]);
         }
 		p1.setBounds(0,0,350,120);
 		p2.setBounds(0,120,350,300);
         t1Label.setBounds(40,100,100,20);
-        t2Label.setBounds(220,100,100,20);	
-        tOPLabel.setBounds(150,100,40,20);
+        t2Label.setBounds(240,100,100,20);	
+        tOPLabel.setBounds(160,100,40,20);
         total.setBounds(10,5,320,50);
         t1.setBounds(10, 60, 125, 40);
         tOperator.setBounds(145, 60, 50, 40);
@@ -116,6 +121,39 @@ public class GraphicalCalculator implements ActionListener {
         backspace.setBounds(80,10,60,40);
         bleft.setBounds(150,10,55,40);
         bright.setBounds(215,10,55,40);
+		bi.setBorder(null);
+		bi.setBackground(Color.decode("#efefef"));
+		bi.setFont(font1);
+		bdot.setBorder(null);
+		bdot.setBackground(Color.decode("#efefef"));
+		bdot.setFont(font1);
+		bplus.setBorder(null);
+		bplus.setBackground(Color.decode("#feeec5"));
+		bplus.setFont(font1);
+		bminus.setBorder(null);
+		bminus.setBackground(Color.decode("#feeec5"));
+		bminus.setFont(font1);
+		bdiv.setBorder(null);
+		bdiv.setBackground(Color.decode("#feeec5"));
+		bdiv.setFont(font1);
+		bmult.setBorder(null);
+		bmult.setBackground(Color.decode("#feeec5"));
+		bmult.setFont(font1);
+		beq.setBorder(null);
+		beq.setBackground(Color.decode("#fec03e"));
+		beq.setFont(font1);
+		backspace.setBorder(null);
+		backspace.setBackground(Color.decode("#feeec5"));
+		backspace.setFont(font1);
+		bleft.setBorder(null);
+		bleft.setBackground(Color.decode("#feeec5"));
+		bleft.setFont(font1);
+		bright.setBorder(null);
+		bright.setBackground(Color.decode("#feeec5"));
+		bright.setFont(font1);
+		clear.setBorder(null);
+		clear.setBackground(Color.decode("#feeec5"));
+		clear.setFont(font1);
         p2.add(backspace);
         p1.add(tOPLabel);
         p1.add(total);
@@ -137,6 +175,8 @@ public class GraphicalCalculator implements ActionListener {
 		f.add(p1);
 		f.add(p2);
 		p1.setLayout(null);
+		p1.setBackground(Color.white);
+		p2.setBackground(Color.white);
 		p2.setLayout(null);
         f.setLayout(null);
         f.setVisible(true);
