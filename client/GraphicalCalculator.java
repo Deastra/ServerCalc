@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.text.AttributeSet.ColorAttribute;
+
 import java.awt.event.*;
 import java.awt.Color;
 import static java.lang.Math.*;
@@ -6,11 +8,12 @@ import java.awt.Font;
 import java.awt.*;
 import java.awt.font.*;
 
-//Increase font size
 //Keyboard listener
 
 public class GraphicalCalculator implements ActionListener {
+
     JFrame f;
+	JPanel p1,p2;
     JTextField tOperator,t1,t2,total;
     JTextField textFields[] = new JTextField[3];
     int focusedTextField = 0;
@@ -26,6 +29,8 @@ public class GraphicalCalculator implements ActionListener {
     public GraphicalCalculator(Calculate obj) {
         this.obj=obj;
         f = new JFrame("GraphicalCalculator");
+		p1=new JPanel();
+		p2=new JPanel();
         total = new JTextField();
         total.setEditable(false);
         total.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -53,6 +58,11 @@ public class GraphicalCalculator implements ActionListener {
         		public void focusGained(FocusEvent e) { focusedTextField = inner_i; }        		
         		public void focusLost(FocusEvent e){};
         	});
+		textFields[i].addKeyListener(new KeyAdapter() {
+        		public void keyTyped(KeyEvent e) {
+        			e.consume();
+        		}
+        	});
         }  
         
         bplus=new JButton("+");
@@ -73,63 +83,106 @@ public class GraphicalCalculator implements ActionListener {
         bright=new JButton("->");	
         bleft.addActionListener(this);
         bright.addActionListener(this);
-        clear = new JButton("Clear");
+        clear = new JButton("C");
         clear.addActionListener(this);
-        backspace=new JButton("[X]");
+        backspace=new JButton("Del");
         backspace.addActionListener(this);
-        backspace.setBackground(Color.RED);
         for (int i=0;i<=9;i++){
             numberButtons[i]=new JButton(String.valueOf(i));
             numberButtons[i].addActionListener(this);
-            f.add(numberButtons[i]);
+			numberButtons[i].setBorder(null);
+			numberButtons[i].setBackground(Color.decode("#efefef"));
+			numberButtons[i].setFont(font1);
+            p2.add(numberButtons[i]);
         }
+		p1.setBounds(0,0,350,120);
+		p2.setBounds(0,120,350,300);
         t1Label.setBounds(40,100,100,20);
-        t2Label.setBounds(220,100,100,20);	
-        tOPLabel.setBounds(150,100,40,20);
+        t2Label.setBounds(240,100,100,20);	
+        tOPLabel.setBounds(160,100,40,20);
         total.setBounds(10,5,320,50);
         t1.setBounds(10, 60, 125, 40);
         tOperator.setBounds(145, 60, 50, 40);
         tOperator.setHorizontalAlignment(JTextField.CENTER);
         t2.setBounds(205, 60, 125, 40);
-        numberButtons[7].setBounds(10,180,80,40);
-        numberButtons[8].setBounds(100,180,80,40);
-        numberButtons[9].setBounds(190,180,80,40);
-        numberButtons[4].setBounds(10,230,80,40);
-        numberButtons[5].setBounds(100,230,80,40);
-        numberButtons[6].setBounds(190,230,80,40);
-        numberButtons[1].setBounds(10,280,80,40);
-        numberButtons[2].setBounds(100,280,80,40);
-        numberButtons[3].setBounds(190,280,80,40);
-        bi.setBounds(10, 330,80,40);
-        numberButtons[0].setBounds(100,330,80,40);
-        bdot.setBounds(190, 330, 80,40);
-        bplus.setBounds(280, 130, 50, 40);
-        bminus.setBounds(280, 180, 50, 40);
-        bdiv.setBounds(280, 230, 50, 40);
-        bmult.setBounds(280, 280, 50, 40);
-        beq.setBounds(280, 330, 50, 40);
-        clear.setBounds(10, 130, 90, 40);
-        backspace.setBounds(110,130,50,40);
-        bleft.setBounds(170,130,50,40);
-        bright.setBounds(225,130,50,40);
-        f.add(backspace);
-        f.add(tOPLabel);
-        f.add(total);
-        f.add(tOperator);
-        f.add(t1);
-        f.add(t2);
-        f.add(t1Label);
-        f.add(t2Label);
-        f.add(bleft);
-        f.add(bright);
-        f.add(bplus);
-        f.add(bminus);
-        f.add(bdiv);
-        f.add(bmult);
-        f.add(bi);
-        f.add(beq);
-        f.add(bdot);
-        f.add(clear);
+        numberButtons[7].setBounds(10,60,80,40);
+        numberButtons[8].setBounds(100,60,80,40);
+        numberButtons[9].setBounds(190,60,80,40);
+        numberButtons[4].setBounds(10,110,80,40);
+        numberButtons[5].setBounds(100,110,80,40);
+        numberButtons[6].setBounds(190,110,80,40);
+        numberButtons[1].setBounds(10,160,80,40);
+        numberButtons[2].setBounds(100,160,80,40);
+        numberButtons[3].setBounds(190,160,80,40);
+        bi.setBounds(10, 210,80,40);
+        numberButtons[0].setBounds(100,210,80,40);
+        bdot.setBounds(190, 210, 80,40);
+        bplus.setBounds(280, 10, 50, 40);
+        bminus.setBounds(280, 60, 50, 40);
+        bdiv.setBounds(280, 110, 50, 40);
+        bmult.setBounds(280, 160, 50, 40);
+        beq.setBounds(280, 210, 50, 40);
+        clear.setBounds(10, 10, 60, 40);
+        backspace.setBounds(80,10,60,40);
+        bleft.setBounds(150,10,55,40);
+        bright.setBounds(215,10,55,40);
+		bi.setBorder(null);
+		bi.setBackground(Color.decode("#efefef"));
+		bi.setFont(font1);
+		bdot.setBorder(null);
+		bdot.setBackground(Color.decode("#efefef"));
+		bdot.setFont(font1);
+		bplus.setBorder(null);
+		bplus.setBackground(Color.decode("#feeec5"));
+		bplus.setFont(font1);
+		bminus.setBorder(null);
+		bminus.setBackground(Color.decode("#feeec5"));
+		bminus.setFont(font1);
+		bdiv.setBorder(null);
+		bdiv.setBackground(Color.decode("#feeec5"));
+		bdiv.setFont(font1);
+		bmult.setBorder(null);
+		bmult.setBackground(Color.decode("#feeec5"));
+		bmult.setFont(font1);
+		beq.setBorder(null);
+		beq.setBackground(Color.decode("#fec03e"));
+		beq.setFont(font1);
+		backspace.setBorder(null);
+		backspace.setBackground(Color.decode("#feeec5"));
+		backspace.setFont(font1);
+		bleft.setBorder(null);
+		bleft.setBackground(Color.decode("#feeec5"));
+		bleft.setFont(font1);
+		bright.setBorder(null);
+		bright.setBackground(Color.decode("#feeec5"));
+		bright.setFont(font1);
+		clear.setBorder(null);
+		clear.setBackground(Color.decode("#feeec5"));
+		clear.setFont(font1);
+        p2.add(backspace);
+        p1.add(tOPLabel);
+        p1.add(total);
+        p1.add(tOperator);
+        p1.add(t1);
+        p1.add(t2);
+        p1.add(t1Label);
+        p1.add(t2Label);
+        p2.add(bleft);
+        p2.add(bright);
+        p2.add(bplus);
+        p2.add(bminus);
+        p2.add(bdiv);
+        p2.add(bmult);
+        p2.add(bi);
+        p2.add(beq);
+        p2.add(bdot);
+        p2.add(clear);
+		f.add(p1);
+		f.add(p2);
+		p1.setLayout(null);
+		p1.setBackground(Color.white);
+		p2.setBackground(Color.white);
+		p2.setLayout(null);
         f.setLayout(null);
         f.setVisible(true);
         f.setSize(355, 450);
