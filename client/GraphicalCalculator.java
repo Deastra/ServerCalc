@@ -58,7 +58,7 @@ public class GraphicalCalculator implements ActionListener {
         		public void focusGained(FocusEvent e) { focusedTextField = inner_i; }        		
         		public void focusLost(FocusEvent e){};
         	});
-		textFields[i].addKeyListener(new KeyAdapter() {
+			textFields[i].addKeyListener(new KeyAdapter() {
         		public void keyTyped(KeyEvent e) {
         			e.consume();
         		}
@@ -83,7 +83,7 @@ public class GraphicalCalculator implements ActionListener {
         bright=new JButton("->");	
         bleft.addActionListener(this);
         bright.addActionListener(this);
-        clear = new JButton("C");
+        clear = new JButton("AC");
         clear.addActionListener(this);
         backspace=new JButton("Del");
         backspace.addActionListener(this);
@@ -157,7 +157,7 @@ public class GraphicalCalculator implements ActionListener {
 		bright.setBackground(Color.decode("#feeec5"));
 		bright.setFont(font1);
 		clear.setBorder(null);
-		clear.setBackground(Color.decode("#feeec5"));
+		clear.setBackground(Color.decode("#fec03e"));
 		clear.setFont(font1);
         p2.add(backspace);
         p1.add(tOPLabel);
