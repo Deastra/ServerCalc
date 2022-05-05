@@ -1,14 +1,14 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet.ColorAttribute;
-
+import java.rmi.RemoteException;
 import java.awt.event.*;
 import java.awt.Color;
 import static java.lang.Math.*;
 import java.awt.Font;
 import java.awt.*;
 import java.awt.font.*;
-
-//Keyboard listener
 
 public class GraphicalCalculator implements ActionListener {
 
@@ -24,9 +24,9 @@ public class GraphicalCalculator implements ActionListener {
     String result=new String();
     int operator = 0;
     String C1, C2, OP;
-    Calculate obj;
+    Calculator obj;
 
-    public GraphicalCalculator(Calculate obj) {
+    public GraphicalCalculator(Calculator obj) {
         this.obj=obj;
         f = new JFrame("GraphicalCalculator");
 		p1=new JPanel();
@@ -42,6 +42,9 @@ public class GraphicalCalculator implements ActionListener {
         t2 = new JTextField();
         t1Label.setLabelFor(t1);
         t2Label.setLabelFor(t2);
+		t1Label.setForeground(Color.white);
+		t2Label.setForeground(Color.white);
+		tOPLabel.setForeground(Color.white);
         textFields[0] = t1;
         textFields[1] = tOperator;
         textFields[2] = t2;
@@ -95,16 +98,18 @@ public class GraphicalCalculator implements ActionListener {
 			numberButtons[i].setFont(font1);
             p2.add(numberButtons[i]);
         }
-		p1.setBounds(0,0,350,120);
-		p2.setBounds(0,120,350,300);
-        t1Label.setBounds(40,100,100,20);
-        t2Label.setBounds(240,100,100,20);	
-        tOPLabel.setBounds(160,100,40,20);
-        total.setBounds(10,5,320,50);
-        t1.setBounds(10, 60, 125, 40);
-        tOperator.setBounds(145, 60, 50, 40);
+		p1.setBounds(0,0,340,130);
+		p2.setBounds(0,130,340,270);
+		f.setSize(354, 437);
+
+        t1Label.setBounds(40,106,100,20);
+        t2Label.setBounds(240,106,100,20);	
+        tOPLabel.setBounds(160,106,40,20);
+        total.setBounds(10,10,320,50);
+        t1.setBounds(10, 65, 125, 40);
+        tOperator.setBounds(145, 65, 50, 40);
         tOperator.setHorizontalAlignment(JTextField.CENTER);
-        t2.setBounds(205, 60, 125, 40);
+        t2.setBounds(205, 65, 125, 40);
         numberButtons[7].setBounds(10,60,80,40);
         numberButtons[8].setBounds(100,60,80,40);
         numberButtons[9].setBounds(190,60,80,40);
@@ -177,15 +182,19 @@ public class GraphicalCalculator implements ActionListener {
         p2.add(beq);
         p2.add(bdot);
         p2.add(clear);
+		f.setBackground(Color.black);//decode("#fec03e")); //feeec5 fec03e
 		f.add(p1);
 		f.add(p2);
 		p1.setLayout(null);
-		p1.setBackground(Color.white);
-		p2.setBackground(Color.white);
+		p1.setBackground(Color.decode("#48525b"));//decode("#d5d2c9"));
+		p2.setBackground(Color.decode("#4c5760"));//decode("#d5d2c9"));
+		Border border=new LineBorder(Color.decode("#feeec5"), 2);
+		p1.setBorder(border);
+		p2.setBorder(border);
 		p2.setLayout(null);
         f.setLayout(null);
         f.setVisible(true);
-        f.setSize(355, 450);
+        
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setResizable(false);
         clear.addActionListener(this);
@@ -274,7 +283,11 @@ public class GraphicalCalculator implements ActionListener {
     		}
     	}
     	
-    	if (e.getSource() == clear) textFields[focusedTextField].setText("");
+    	if (e.getSource() == clear) {
+			for (int i = 0; i < 3; i++) {
+				textFields[i].setText("");
+			}
+		}
     	if (e.getSource() == backspace && !content.isEmpty()) textFields[focusedTextField].setText(content.substring(0, content.length()-1));
     	
     	if (e.getSource() == bright) focusedTextField = focusedTextField != 2 ? focusedTextField+1 : 0;
@@ -287,22 +300,35 @@ public class GraphicalCalculator implements ActionListener {
     	this.total.setText(total_exp);
     	
     	if (e.getSource() == beq) {
-    		double real_im_1[] = GraphicalCalculator.parseComplexNumber(textFields[0].getText());   
-    		double real_im_2[] = GraphicalCalculator.parseComplexNumber(textFields[2].getText());
-            try{
-                total_exp+="="+Equals(this.obj, real_im_1[0], real_im_1[1], real_im_2[0],real_im_2[1],OP);
-                this.total.setText(total_exp);
-            }catch(Exception e1){
-                this.total.setText("ERROR EXCEPT");
-            }
-        
+			try{
+				double real_im_1[] = GraphicalCalculator.parseComplexNumber(textFields[0].getText());   
+				double real_im_2[] = GraphicalCalculator.parseComplexNumber(textFields[2].getText());
+				
+				String result=Equals(this.obj, real_im_1[0], real_im_1[1], real_im_2[0],real_im_2[1],OP);
+				if(result.equals("Error")){
+					total_exp=result;
+				}else{
+					total_exp+="="+result;
+				}
+				
+				this.total.setText(total_exp);
+			}
+			catch(NumberFormatException ne){
+				
+				this.total.setText("Invalid Input!");
+			}
         }
     }
-    
-    public String Equals(Calculate obj,double real1,double img1, double real2, double img2,String op) throws Exception{
+    public String Equals(Calculator obj,double real1,double img1, double real2, double img2,String op){
         Complex c1 = new Complex(real1,img1) ;
         Complex c2 = new Complex(real2,img2) ;
-        return obj.Calculation(c1, c2, op).getComplex();
+		
+		try{
+			return obj.Calculate(c1, c2, op).getComplex();
+		}catch(RemoteException re){
+			return "Connection Error!";
+		}
+        
 
     }
 
@@ -318,7 +344,7 @@ public class GraphicalCalculator implements ActionListener {
     	}
     }
     
-    private static double[] parseComplexNumber(String complexNumber) {
+    private static double[] parseComplexNumber(String complexNumber){
     	String[] real_im = new String[2];	
     	if (!complexNumber.contains("i")) {
     		if (complexNumber.length() > 0) real_im[0] = GraphicalCalculator.evalString(complexNumber);
@@ -348,13 +374,13 @@ public class GraphicalCalculator implements ActionListener {
     	double[] real_im_fl = new double[2];
     	real_im_fl[0] = Double.parseDouble(real_im[0]);
     	real_im_fl[1] = Double.parseDouble(real_im[1].substring(0, real_im[1].length()-1));
-    	real_im_fl[0] = (double)(Math.round(real_im_fl[0] * 100.0)/100.0);
-    	real_im_fl[1] = (double)(Math.round(real_im_fl[1] * 100.0)/100.0);
+    	// real_im_fl[0] = (double)(Math.round(real_im_fl[0] * 100.0)/100.0);
+    	// real_im_fl[1] = (double)(Math.round(real_im_fl[1] * 100.0)/100.0);
     	
     	return real_im_fl;
     }
-    
-    private static String evalString(String expression) {
+
+    private static String evalString(String expression){
     	double result = 0;
     	String current = "";
     	char op = '+';

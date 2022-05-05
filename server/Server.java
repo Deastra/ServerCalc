@@ -8,18 +8,18 @@ public class Server {
     if(args.length==1)
       port = Integer.parseInt(args[0]);
     try {
-      Calculate skeleton = (Calculate)UnicastRemoteObject.exportObject(new CalculateImpl(), 0);
+      Calculator skeleton = (Calculator)UnicastRemoteObject.exportObject(new CalculatorImpl(), 0);
       Registry registry = LocateRegistry.getRegistry(port);
       
-      if(!Arrays.asList(registry.list()).contains("Calculate5")){
-        System.out.println("binding");
-        registry.bind("Calculate5", skeleton); 
+      if(!Arrays.asList(registry.list()).contains("Calculator9")){
+        System.out.println("Binding");
+        registry.bind("Calculator9", skeleton); 
       }
       else{
         System.out.println("rebinding");
-        registry.rebind("Calculate5", skeleton);
+        registry.rebind("Calculator9", skeleton);
       }
-      System.out.println("Service Calculator5 executed");
+      System.out.println("Service Calculator9 executed");
       System.out.println("Client <-> Service");
     } catch (Exception e) {
         System.out.println(e);

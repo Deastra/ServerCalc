@@ -2,7 +2,7 @@ import java.lang.Math.*;
 import java.io.Serializable;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-public class CalculateImpl implements Calculate{
+public class CalculatorImpl implements Calculator{
     // public CalculateImpl(){};
     public Complex addition(Complex c1, Complex c2){
         double a=c1.getReal()+c2.getReal();
@@ -32,8 +32,7 @@ public class CalculateImpl implements Calculate{
         Complex res;
         if (Math.signum(c2.getReal())==0){
             res=new Complex();
-            res.setErr("err");
-            // System.out.println("ERROR CALC");
+            res.setErr("Division by Zero!");
         }else{
             double a=c1.getReal()/c2.getReal();
             double b=c1.getImg()/c2.getReal();
@@ -41,13 +40,14 @@ public class CalculateImpl implements Calculate{
         }
         return res;
     }
-    public Complex Calculation(Complex c1, Complex c2,String op){
+
+    public Complex Calculate(Complex c1, Complex c2,String op){
         switch (op){
             case "+": return addition(c1,c2);
             case "-": return substitution(c1, c2);
             case "x": return multiplication(c1,c2);
             case "/": return intDivision(c1, c2);
-            default: return new Complex();
+            default: return new Complex("Error");
         }
     }
 

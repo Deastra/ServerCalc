@@ -8,10 +8,10 @@ public class Client {
       int port = 1099;
       try {
         Registry registry = LocateRegistry.getRegistry(machine, port);
-        Calculate obj = (Calculate)registry.lookup("Calculate5");
+        Calculator obj = (Calculator)registry.lookup("Calculator9");
         new GraphicalCalculator(obj);
       } catch (Exception e) {
-        System.out.println("Client exception: ");
+        System.out.println("Client Exception! ");
       }
     }
 }

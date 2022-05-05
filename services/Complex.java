@@ -12,6 +12,10 @@ public class Complex implements Serializable{
         this.img=img;
     }
 
+    public Complex(String err){
+        this.err=err;
+    }
+
     public double getReal() {
         return this.real;
     }
@@ -37,10 +41,12 @@ public class Complex implements Serializable{
     }
 
     public String getComplex() {
-        if (this.err.equals("err")){
+        //                                                    PROBLEM
+        if (this.err!=""){
             // System.out.println("ERROR Complex");
-            return "ERROR!";
-        }else{
+            return this.err;
+        }
+        else{
             String strReal=new String(Double.toString(this.real));
             String strImg=new String(Double.toString(this.img));
             if (this.real==0 & this.img==0){
