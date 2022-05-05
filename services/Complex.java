@@ -41,7 +41,6 @@ public class Complex implements Serializable{
     }
 
     public String getComplex() {
-        //                                                    PROBLEM
         if (this.err!=""){
             // System.out.println("ERROR Complex");
             return this.err;

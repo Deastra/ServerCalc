@@ -253,9 +253,10 @@ public class GraphicalCalculator implements ActionListener {
     	
     	if (e.getSource() == bi) {
     		if (!content.contains("i")) {
-    			if (focusedTextField == 0) textFields[focusedTextField].setText(content + (content.length() != 0 && content.substring(content.length()-1).equals(".") ? "0i" : "i"));
-    			if (focusedTextField == 2 && !textFields[1].getText().equals("/")) 
-    				textFields[focusedTextField].setText(content + (content.substring(content.length()-1).equals(".") ? "0i" : "i"));
+    			if (focusedTextField == 0) 
+					textFields[focusedTextField].setText(content + (content.length() != 0 && content.substring(content.length()-1).equals(".") ? "0i" : "i"));
+    			if (focusedTextField == 2 && !textFields[1].getText().equals("/"))
+    				textFields[focusedTextField].setText(content + (content.length() != 0 && content.substring(content.length()-1).equals(".") ? "0i" : "i"));
     		}
     	}
     	
@@ -305,16 +306,14 @@ public class GraphicalCalculator implements ActionListener {
 				double real_im_2[] = GraphicalCalculator.parseComplexNumber(textFields[2].getText());
 				
 				String result=Equals(this.obj, real_im_1[0], real_im_1[1], real_im_2[0],real_im_2[1],OP);
-				if(result.equals("Error")){
+				if(result.equals("Error") || result.equals("Connection Error!") || result.equals("Invalid Operation")){
 					total_exp=result;
 				}else{
 					total_exp+="="+result;
 				}
-				
 				this.total.setText(total_exp);
 			}
 			catch(NumberFormatException ne){
-				
 				this.total.setText("Invalid Input!");
 			}
         }
@@ -322,14 +321,12 @@ public class GraphicalCalculator implements ActionListener {
     public String Equals(Calculator obj,double real1,double img1, double real2, double img2,String op){
         Complex c1 = new Complex(real1,img1) ;
         Complex c2 = new Complex(real2,img2) ;
-		
+
 		try{
 			return obj.Calculate(c1, c2, op).getComplex();
 		}catch(RemoteException re){
 			return "Connection Error!";
 		}
-        
-
     }
 
     private boolean isDigit(char c) {
@@ -366,14 +363,15 @@ public class GraphicalCalculator implements ActionListener {
     			}
     			if (complexNumber.charAt(index) == '+') regex = "\\+" + real_im[1];
     		} else regex = real_im[1];
-    		
+			
     		String[] imaginaryPartRemoved = complexNumber.split(regex);
     		real_im[0] = GraphicalCalculator.evalString((imaginaryPartRemoved.length > 0 ? imaginaryPartRemoved[0] : "") + (imaginaryPartRemoved.length > 1 ? imaginaryPartRemoved[1] : ""));
+			
     	}
-    	
+    	real_im[1]=GraphicalCalculator.evalString(real_im[1]);
     	double[] real_im_fl = new double[2];
     	real_im_fl[0] = Double.parseDouble(real_im[0]);
-    	real_im_fl[1] = Double.parseDouble(real_im[1].substring(0, real_im[1].length()-1));
+    	real_im_fl[1] = Double.parseDouble(real_im[1]);
     	// real_im_fl[0] = (double)(Math.round(real_im_fl[0] * 100.0)/100.0);
     	// real_im_fl[1] = (double)(Math.round(real_im_fl[1] * 100.0)/100.0);
     	
@@ -381,24 +379,32 @@ public class GraphicalCalculator implements ActionListener {
     }
 
     private static String evalString(String expression){
-    	double result = 0;
-    	String current = "";
-    	char op = '+';
-    	
-    	for (int i = 0; i < expression.length(); i++) {
-    		if (expression.charAt(i) != '+' && expression.charAt(i) != '-') current += expression.charAt(i);
-    		else if (expression.charAt(i) == '+' || expression.charAt(i) == '-') {
-    			if (i != 0) {
-	    			if (op == '+') result += Double.parseDouble(current);
-	    			if (op == '-') result -= Double.parseDouble(current);   			
-	    			current = "";
-    			}
-    			op = expression.charAt(i);
-    		}
-    	}
-    	if (op == '+') result += current != "" ? Double.parseDouble(current) : 0.0;
-		if (op == '-') result -= current != "" ? Double.parseDouble(current) : 0.0;
-    	
-    	return String.valueOf(result);
+
+    	if(expression.contains("i")){
+			switch (expression){
+				case "i": case "+i": return "1";
+				case "-i": return "-1";
+				default: return expression.substring(0, expression.length()-1);
+			}
+		}else{
+			double result = 0;
+			String current = "";
+			char op = '+';
+			for (int i = 0; i < expression.length(); i++) {
+				if (expression.charAt(i) != '+' && expression.charAt(i) != '-') current += expression.charAt(i);
+				else if (expression.charAt(i) == '+' || expression.charAt(i) == '-') {
+					if (i != 0) {
+						if (op == '+') result += Double.parseDouble(current);
+						if (op == '-') result -= Double.parseDouble(current);   			
+						current = "";
+					}
+					op = expression.charAt(i);
+				}
+			}
+			if (op == '+') result += current != "" ? Double.parseDouble(current) : 0.0;
+			if (op == '-') result -= current != "" ? Double.parseDouble(current) : 0.0;
+		
+    		return String.valueOf(result);
+		}
     }
 }

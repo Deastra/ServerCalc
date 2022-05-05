@@ -47,7 +47,7 @@ public class CalculatorImpl implements Calculator{
             case "-": return substitution(c1, c2);
             case "x": return multiplication(c1,c2);
             case "/": return intDivision(c1, c2);
-            default: return new Complex("Error");
+            default: return new Complex("Invalid Operation");
         }
     }
 
